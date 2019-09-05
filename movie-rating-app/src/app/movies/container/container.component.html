@@ -1,0 +1,62 @@
+<app-header>
+  <div class="custom-header-menu">
+    <button style="margin-right: 4rem;" mat-raised-button color="primary" [matMenuTriggerFor]="byType">Type
+      <mat-icon>expand_more</mat-icon>
+    </button>
+    <button mat-raised-button color="primary" [matMenuTriggerFor]="byPoint">Sort
+      <mat-icon>expand_more</mat-icon>
+    </button>
+    <mat-menu #byType="matMenu">
+      <mat-radio-group (change)="changeShorting($event.value, 'type')">
+        <div class="type_select" mat-menu-item>
+          <div class="type_select__text">All</div>
+          <div class="type_select__option">
+            <mat-radio-button [value]="MovieTypes.ALL"></mat-radio-button>
+          </div>
+        </div>
+        <div class="type_select" mat-menu-item>
+          <div class="type_select__text">Movies</div>
+          <div class="type_select__option">
+            <mat-radio-button [value]="MovieTypes.FILM"></mat-radio-button>
+          </div>
+        </div>
+        <div class="type_select" mat-menu-item>
+          <div class="type_select__text">Series</div>
+          <div class="type_select__option">
+            <mat-radio-button [value]="MovieTypes.TV_SERIES"></mat-radio-button>
+          </div>
+        </div>
+      </mat-radio-group>
+    </mat-menu>
+
+    <mat-menu #byPoint="matMenu">
+      <mat-radio-group (change)="changeShorting($event.value, 'sorting')">
+        <div class="type_select" mat-menu-item>
+          <div class="type_select__text">Rated (ascending)</div>
+          <div class="type_select__option">
+            <mat-radio-button [value]="SortingTypes.ASC"></mat-radio-button>
+          </div>
+        </div>
+        <div class="type_select" mat-menu-item>
+          <div class="type_select__text">By rating (descending)</div>
+          <div class="type_select__option">
+            <mat-radio-button [value]="SortingTypes.DESC"></mat-radio-button>
+          </div>
+        </div>
+      </mat-radio-group>
+    </mat-menu>
+  </div>
+</app-header>
+<div class="container">
+  <ng-container #outlet></ng-container>
+  <ng-template #content>
+    <app-movie
+      style="display: block"
+      *ngFor="let movie of (movieListState | async ).movies | movieSort: sorting"
+      [movie]="movie"
+    >
+    </app-movie>
+  </ng-template>
+</div>
+
+
